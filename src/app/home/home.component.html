@@ -1,0 +1,29 @@
+<div class="uk-grid editor-wrap">
+    <div class="uk-width-2-10 editor-left">
+        <div class="date-wrap">
+            <my-date-picker  *ngIf="isDataLoaded" [selDate]="selDate" [options]="myDatePickerOptions" (dateChanged)="onDateChanged($event)"></my-date-picker>
+        </div>
+        <div class="nav-btn-wrap">
+            <button class="uk-button" type="button">前一天</button>
+            <button class="uk-button" type="button">后一天</button>
+        </div>
+    </div>
+    <div class="uk-width-8-10 editor-right">
+        <div class="uk-tab-center">
+            <ul class="uk-tab" data-uk-tab="">
+                <li [class.uk-active]="isActive('/home/codeskill')" aria-expanded="true"><a [routerLink]="['/home/codeskill']" [queryParams]="{date: currentDate}">代码技巧</a></li>
+                <li [class.uk-active]="isActive('/home/beautlife')" aria-expanded="false"><a [routerLink]="['/home/beautlife']" [queryParams]="{date: currentDate}">生活感悟</a></li>
+                <li [class.uk-active]="isActive('/home/daily')" aria-expanded="false"><a [routerLink]="['/home/daily']" [queryParams]="{date: currentDate}">每日计划</a></li>
+                <li class="uk-tab-responsive uk-active uk-hidden" aria-haspopup="true" aria-expanded="false"><a>Active</a>
+                    <div class="uk-dropdown uk-dropdown-small">
+                        <ul class="uk-nav uk-nav-dropdown"></ul>
+                        <div></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="content-detail">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

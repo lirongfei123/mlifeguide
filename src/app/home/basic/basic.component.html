@@ -1,0 +1,14 @@
+<div class="editor-wrap" *ngFor="let item of data; let i = index">
+    <div class="btn-group">
+        <i class="uk-icon-plus" (click)="addNew()" *ngIf="i==0"></i>
+        <i class="uk-icon-remove" (click)="deleteItem(i)"></i>
+    </div>
+    <content-editor
+    [editorHeight]="item.height"
+    [editorType]="editorType"
+    [editorContent]="item.content"
+    [markContent]="item.mark"
+    (onEditorBlur)="onEditorBlur(i, $event)"
+    (onMarkBlur)="onMarkBlur(i, $event)"
+    ></content-editor>
+</div>
