@@ -33,7 +33,7 @@ export class BacisEditorComponent implements OnInit, OnDestroy {
   }
   public ngOnInit() {
     this.activeRoute.url.subscribe((data) => {
-      if (data[0].path === 'codeskill') {
+      if (data[0].path === 'codeskill' || data[0].path === 'beautlife') {
         this.editorType = 'ckeditor';
       } else {
         this.editorType = 'textarea';
