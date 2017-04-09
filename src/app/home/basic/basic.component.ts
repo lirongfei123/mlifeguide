@@ -57,13 +57,17 @@ export class BacisEditorComponent implements OnInit, OnDestroy {
     this.blur(0);
   }
   public deleteItem(index) {
-    if (this.data.length > 1) {
-      let result = confirm('你确定要删除吗？');
-      if (result) {
-        this.homeComponent.deleteData(this.data[index].id).then(function() {
-          this.data.splice(index, 1);
-        });
-      }
+    let result = confirm('你确定要删除吗？');
+    if (result) {
+      this.homeComponent.deleteData(this.data[index].id).then( () => {
+        this.data.splice(index, 1);
+        if (this.data.length === 0) {
+          this.data.unshift({
+            mark: '',
+            content: ''
+          });
+        }
+      });
     }
   }
   public onEditorBlur(index: number, event) {
@@ -71,7 +75,7 @@ export class BacisEditorComponent implements OnInit, OnDestroy {
     this.data[index].height = event.height;
     this.blur(index);
   }
-  public onEditorChange (index: number, event) {
+  public onEditorChange(index: number, event) {
     let item = this.data[index];
     localStorage.setItem('content' + item.id, (new Date().getTime() - 3).toString().slice(0, -3) + '===___===' + item.content);
   }
@@ -106,6 +110,7 @@ export class BacisEditorComponent implements OnInit, OnDestroy {
         JSON.stringify(this.data[index])).then((data) => {
           let result = data.json();
           this.data[index].id = result.data.id;
+          this.data[index].updateDate = result.data.updateDate;
         });
     }
   }
@@ -141,11 +146,11 @@ export class BacisEditorComponent implements OnInit, OnDestroy {
             // 读取localStorage的缓存
             let oldStorage = localStorage.getItem('content' + id);
             if (oldStorage !== null) {
-                let oldContent = oldStorage.split('===___===');
-                let oldUpdateDate = Number(oldContent[0]);
-                if (oldUpdateDate - updateDate > 0) {
-                  value.content = oldContent[1];
-                }
+              let oldContent = oldStorage.split('===___===');
+              let oldUpdateDate = Number(oldContent[0]);
+              if (oldUpdateDate - updateDate > 0) {
+                value.content = oldContent[1];
+              }
             }
             return value;
           });
