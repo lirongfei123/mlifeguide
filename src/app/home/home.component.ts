@@ -24,7 +24,8 @@ export class HomeComponent implements OnInit {
   public isDataLoaded = false;
   public todayDate = new Date();
   public currentDate = new Date().getTime();
-  public myDatePickerOptions: IMyOptions = {
+  // 这个地方之所以不用IMyOptions， 是因为其不支持disableDateRange
+  public myDatePickerOptions: any = {
     // other options...
     dateFormat: 'dd.mm.yyyy',
     showInputField: false,
@@ -113,10 +114,10 @@ export class HomeComponent implements OnInit {
     this.appState.set('value', value);
     this.localState.value = '';
   }
-  
+
   public deleteData(id) {
     return this.homeService.deleteData({
-     id
+      id
     });
   }
   public updateData(type, date, content, id, updateDate) {

@@ -140,10 +140,10 @@ export class BacisEditorComponent implements OnInit, OnDestroy {
             console.log(value);
             // 读取localStorage的缓存
             let oldStorage = localStorage.getItem('content' + id);
-            if (oldStorage) {
-               let oldContent = oldStorage.split('===___===');
-               console.log(oldContent[0] , updateDate, oldContent[0] - updateDate);
-                if (oldContent[0] - updateDate > 0) {
+            if (oldStorage !== null) {
+                let oldContent = oldStorage.split('===___===');
+                let oldUpdateDate = Number(oldContent[0]);
+                if (oldUpdateDate - updateDate > 0) {
                   value.content = oldContent[1];
                 }
             }
