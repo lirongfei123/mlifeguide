@@ -1,0 +1,39 @@
+/*styles for home content only*/
+.editor-wrap {
+    height: 100vh;
+    .editor-left{
+        height: 100%;
+        background: rgb(247,247,247);
+        my-date-picker {
+            width: 252px;
+            margin: 0 auto;
+            display: block;
+            margin-top: 2px;
+        }
+    }
+    .editor-right {
+        margin-top: 1px;
+        padding-left:0;
+        .content-detail {
+            padding: 15px;
+            height: calc(100vh - 37px);
+            overflow: scroll;
+            box-sizing: border-box;
+            textarea{ 
+                width: 100%;
+            }
+            
+        }
+    }
+}
+.date-wrap {
+    margin-top: 1px;
+}
+.nav-btn-wrap{
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-around;
+    button {
+        background: #fff;
+    }
+}
