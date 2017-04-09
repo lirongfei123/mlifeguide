@@ -59,7 +59,7 @@ module.exports = function(app, env) {
   }
   function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
-      //res.cookie('userid', req.user.id, { expires: new Date(Date.now() + 900000000), httpOnly: true });
+      res.cookie('userid', req.user.id, { expires: new Date(Date.now() + 900000000), httpOnly: true });
       next();
     } else {
       res.redirect('/auth/github');

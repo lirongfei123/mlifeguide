@@ -25,26 +25,30 @@ export class HomeComponent implements OnInit {
   public todayDate = new Date();
   public currentDate = new Date().getTime();
   // 这个地方之所以不用IMyOptions， 是因为其不支持disableDateRange
-  public myDatePickerOptions: any = {
+  public myDatePickerOptions: IMyOptions = {
     // other options...
     dateFormat: 'dd.mm.yyyy',
     showInputField: false,
     inline: true,
-    disableDays: [
-      {
-        year: 2017,
-        month: 3,
-        day: 2
-      }
-    ],
-    disableDateRange: {
-      begin: { year: 1970, month: 1, day: 1 },
+    // disableDays: [
+    //   {
+    //     year: 2017,
+    //     month: 4,
+    //     day: 2
+    //   }
+    // ],
+    disableDateRanges: [{
+      begin: {
+        year: 2000,
+        month: 1,
+        day: 1
+      },
       end: {
         year: this.todayDate.getFullYear(),
         month: 12,
         day: 31
       }
-    },
+    }],
     disableSince: {
       year: this.todayDate.getFullYear(),
       month: this.todayDate.getMonth() + 1,
