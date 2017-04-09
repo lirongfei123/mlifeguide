@@ -50,7 +50,7 @@ export class HomeComponent implements OnInit {
       day: this.todayDate.getDate()
     }
   };
-  private selDate: IMyDate = {year: 0, month: 0, day: 0};
+  private selDate: IMyDate = { year: 0, month: 0, day: 0 };
   // TypeScript public modifiers
   constructor(
     public appState: AppState,
@@ -69,14 +69,14 @@ export class HomeComponent implements OnInit {
             date: dateObj.getTime()
           }
         });
-        this.selDate =  {
+        this.selDate = {
           year: dateObj.getFullYear(),
           month: dateObj.getMonth() + 1,
           day: dateObj.getDate()
         };
       } else {
         let dateObj = new Date(Number(data.date));
-        this.selDate =  {
+        this.selDate = {
           year: dateObj.getFullYear(),
           month: dateObj.getMonth() + 1,
           day: dateObj.getDate()
@@ -113,12 +113,26 @@ export class HomeComponent implements OnInit {
     this.appState.set('value', value);
     this.localState.value = '';
   }
-  public updateData(type, date, content, id) {
-    this.homeService.updateData({
+  
+  public deleteData(id) {
+    return this.homeService.deleteData({
+     id
+    });
+  }
+  public updateData(type, date, content, id, updateDate) {
+    return this.homeService.updateData({
       type,
       date: this.utilService.convert12Date(date),
-      json: content,
-      id
+      content,
+      id,
+      updateDate
+    });
+  }
+  public addData(type, date, content) {
+    return this.homeService.addData({
+      type,
+      date: this.utilService.convert12Date(date),
+      content,
     });
   }
   public getData(type, date) {
@@ -129,7 +143,7 @@ export class HomeComponent implements OnInit {
   }
   private onDateChanged(event: IMyDateModel) {
     this.currentDate = new Date(event.date.year + '/' + event.date.month + '/' + event.date.day)
-        .getTime();
+      .getTime();
     this.router.navigate([this.router.url.split('?')[0]], {
       queryParams: {
         date: this.currentDate

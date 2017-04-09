@@ -40,7 +40,7 @@ export class BacisEditorComponent implements OnInit, OnDestroy {
       }
     });
     this.eventLisener = this.homeChartService.homeObserver.subscribe(() => {
-        this.initRequestParamAndInitData();
+      this.initRequestParamAndInitData();
     });
   }
   public ngOnDestroy() {
@@ -54,41 +54,63 @@ export class BacisEditorComponent implements OnInit, OnDestroy {
       mark: '',
       content: ''
     });
-    this.blur();
+    this.blur(0);
   }
   public deleteItem(index) {
     if (this.data.length > 1) {
-      this.data.splice(index, 1);
-      this.blur();
+      let result = confirm('你确定要删除吗？');
+      if (result) {
+        this.homeComponent.deleteData(this.data[index].id).then(function() {
+          this.data.splice(index, 1);
+        });
+      }
     }
   }
   public onEditorBlur(index: number, event) {
     this.data[index].content = event.content;
     this.data[index].height = event.height;
-    this.blur();
+    this.blur(index);
+  }
+  public onEditorChange (index: number, event) {
+    let item = this.data[index];
+    localStorage.setItem('content' + item.id, (new Date().getTime() - 3).toString().slice(0, -3) + '===___===' + item.content);
   }
   public onMarkBlur(index: number, event) {
     this.data[index].mark = event;
-    this.blur();
+    this.blur(index);
   }
-  private blur() {
-    let isNull = true;
-    let tempData = this.data.filter((value, key) => {
-      if (value.content.trim() !== '' || value.mark.trim() !== '') {
-        return true;
-      } else {
-        return false;
-      }
-    });
-    if (tempData.length > 0 || (this.historyValue !== null)) {
-      this.historyValue = JSON.stringify(this.data);
+  private blur(index: number) {
+    let contentValue = this.data[index];
+    let div = document.createElement('div');
+    div.innerHTML = contentValue.content;
+    if (div.innerText.trim() === '') {
+      return;
+    }
+    if (typeof contentValue.id !== 'undefined') {
       this.homeComponent.updateData(
         this.type,
         this.date,
-        JSON.stringify(this.data),
-        this.id === -1 ? null : this.id);
+        JSON.stringify(this.data[index]),
+        contentValue.id, this.data[index].updateDate).then((data) => {
+          data = data.json();
+          if (data.code !== 1 && data.data === 'conflict') {
+            alert("已经有新的提交，请复制内容后，刷新页面重新提交");
+          } else {
+            this.data[index].updateDate = data.data.updateDate;
+          }
+        });
+    } else {
+      this.homeComponent.addData(
+        this.type,
+        this.date,
+        JSON.stringify(this.data[index])).then((data) => {
+          let result = data.json();
+          this.data[index].id = result.data.id;
+        });
     }
   }
+
+
   private initRequestParamAndInitData() {
     this.activeRoute.url.subscribe((urls) => {
       this.type = urls[0].path;
@@ -99,20 +121,41 @@ export class BacisEditorComponent implements OnInit, OnDestroy {
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
       this.homeComponent.getData(this.type, this.date).then((data) => {
-          data = data.json();
-          this.id = data.id;
-          function jsonEscape(str)  {
-              return str.replace(/\n/g, '\\n').replace(/\r/g, '\\r').replace(/\t/g, '\\t');
-          }
-          let dataObj = JSON.parse(jsonEscape(data.data));
-          if (dataObj.length === 0) {
-            dataObj.push({
-                mark: '',
-                content: ''
-            });
-          }
-          this.data = dataObj;
+        data = data.json();
+        let editData = [];
+        data.data = JSON.parse(data.data)
+        if (data.data.length === 0) {
+          editData.push({
+            mark: '',
+            content: ''
+          });
+        } else {
+          editData = data.data;
+          editData = editData.map((value, key) => {
+            let id = value.id;
+            let updateDate = value.updateDate;
+            value = JSON.parse(jsonEscape(value.content));
+            value.id = id;
+            value.updateDate = updateDate;
+            console.log(value);
+            // 读取localStorage的缓存
+            let oldStorage = localStorage.getItem('content' + id);
+            if (oldStorage) {
+               let oldContent = oldStorage.split('===___===');
+               console.log(oldContent[0] , updateDate, oldContent[0] - updateDate);
+                if (oldContent[0] - updateDate > 0) {
+                  value.content = oldContent[1];
+                }
+            }
+            return value;
+          });
+        }
+        this.data = editData;
       });
     }, 1000);
+    function jsonEscape(str) {
+      console.log(str);
+      return str.replace(/\n/g, '\\n').replace(/\r/g, '\\r').replace(/\t/g, '\\t');
+    }
   }
 }

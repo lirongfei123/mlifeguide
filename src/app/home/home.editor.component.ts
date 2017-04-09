@@ -8,6 +8,7 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 export class ContentEditorComponent implements OnInit {
     @Output() public onEditorBlur = new EventEmitter();
     @Output() public onMarkBlur = new EventEmitter();
+    @Output() public onEditorChange = new EventEmitter();
     @Input() public editorContent = '';
     @Input() public editorHeight = 450;
     @Input() public markContent = '';
@@ -52,5 +53,8 @@ export class ContentEditorComponent implements OnInit {
     }
     public markBlur() {
         this.onMarkBlur.emit(this.markContent);
+    }
+    public onChange() {
+        this.onEditorChange.emit(this.markContent);
     }
 }

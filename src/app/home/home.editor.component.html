@@ -20,6 +20,7 @@
                 name="name"
                 [config]="editorConfig"
                 (blur)="editorBlur($event)"
+                (change)="onChange($event)"
                 debounce="500">
             </ckeditor>
         </div>

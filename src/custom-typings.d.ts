@@ -59,6 +59,8 @@ interface EditorItem {
   mark: string;
   content: string;
   height?: number;
+  id?: number;
+  updateDate?: string
 }
 // Extra variables that live on Global that will be replaced by webpack DefinePlugin
 declare var ENV: string;
