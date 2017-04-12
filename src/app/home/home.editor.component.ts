@@ -46,7 +46,7 @@ export class ContentEditorComponent implements OnInit {
             {
                 content: event.editor ? event.editor.getData() : event.target.value,
                 height: event.editor ?
-                event.editor.container.$.scrollHeight :
+                event.editor.container.$.clientHeight :
                 event.target.scrollHeight
             }
         );
