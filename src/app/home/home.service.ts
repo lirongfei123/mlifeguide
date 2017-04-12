@@ -1,9 +1,12 @@
 import { Inject, Injectable } from '@angular/core';
-import { Http, URLSearchParams } from '@angular/http';
+import { Http, Headers, RequestOptions, URLSearchParams } from '@angular/http';
 import { Router, Route, ActivatedRoute } from '@angular/router';
 import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class HomeService {
+    private option =  new RequestOptions({ 
+        headers: new Headers({ 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8' })
+    });
     constructor(
         private http: Http,
         private route: ActivatedRoute,
@@ -16,15 +19,15 @@ export class HomeService {
     }
     public updateData(data): Promise<any> {
         return this.http.post('/my-project/mlife-guide-re/index.php?index!updateData',
-            data).toPromise();
+            data, this.option).toPromise();
     }
     public deleteData(data): Promise<any> {
         return this.http.post('/my-project/mlife-guide-re/index.php?index!deleteData',
-            data).toPromise();
+            data, this.option).toPromise();
     }
     public addData(data): Promise<any> {
         return this.http.post('/my-project/mlife-guide-re/index.php?index!addData',
-            data).toPromise();
+            data, this.option).toPromise();
     }
     public getData(options): Promise<any> {
         let params = new URLSearchParams();
