@@ -10,7 +10,7 @@ export class ContentEditorComponent implements OnInit {
     @Output() public onMarkBlur = new EventEmitter();
     @Output() public onEditorChange = new EventEmitter();
     @Input() public editorContent = '';
-    @Input() public editorHeight = 450;
+    @Input() public editorHeight = 300;
     @Input() public markContent = '';
     @Input() public editorType = 'ckeditor';
     public editorConfig: any;
