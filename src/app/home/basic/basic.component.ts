@@ -142,7 +142,6 @@ export class BacisEditorComponent implements OnInit, OnDestroy {
             value = JSON.parse(jsonEscape(value.content));
             value.id = id;
             value.updateDate = updateDate;
-            console.log(value);
             // 读取localStorage的缓存
             let oldStorage = localStorage.getItem('content' + id);
             if (oldStorage !== null) {
@@ -159,7 +158,6 @@ export class BacisEditorComponent implements OnInit, OnDestroy {
       });
     }, 1000);
     function jsonEscape(str) {
-      console.log(str);
       return str.replace(/\n/g, '\\n').replace(/\r/g, '\\r').replace(/\t/g, '\\t');
     }
   }

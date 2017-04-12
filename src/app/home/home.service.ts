@@ -19,15 +19,15 @@ export class HomeService {
     }
     public updateData(data): Promise<any> {
         return this.http.post('/my-project/mlife-guide-re/index.php?index!updateData',
-            data, this.option).toPromise();
+            this.convertBody(data), this.option).toPromise();
     }
     public deleteData(data): Promise<any> {
         return this.http.post('/my-project/mlife-guide-re/index.php?index!deleteData',
-            data, this.option).toPromise();
+            this.convertBody(data), this.option).toPromise();
     }
     public addData(data): Promise<any> {
         return this.http.post('/my-project/mlife-guide-re/index.php?index!addData',
-            data, this.option).toPromise();
+            this.convertBody(data), this.option).toPromise();
     }
     public getData(options): Promise<any> {
         let params = new URLSearchParams();
@@ -39,5 +39,15 @@ export class HomeService {
         return this.http.get('/my-project/mlife-guide-re/index.php?index!getData', {
             search: params
         }).toPromise();
+    }
+    private convertBody(body): any {
+        let data = new URLSearchParams();
+        for (let i in body) {
+            if (body.hasOwnProperty(i)) {
+                data.append(i, body[i]);
+            }
+        }
+        console.log(data);
+        return data;
     }
 }
