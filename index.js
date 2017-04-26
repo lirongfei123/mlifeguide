@@ -12,4 +12,4 @@ app.use('/my-project/mlife-guide-re/', proxy({
         '^/my-project/mlife-guide-re' : '/project/mlife-guide-re'
     }
 }));
-app.listen(process.env.PORT || 18080);
+app.listen(process.env.PORT || 18080);     

@@ -139,7 +139,17 @@ export class BacisEditorComponent implements OnInit, OnDestroy {
           editData = editData.map((value, key) => {
             let id = value.id;
             let updateDate = value.updateDate;
-            value = JSON.parse(jsonEscape(value.content));
+            let content = jsonEscape(value.content);
+            let startStr = '","content":"';
+            let endStr = '","height":';
+            let start = content.indexOf(startStr);
+            let end = content.indexOf(endStr);
+            content = content.substring(0, start)
+            + startStr
+            + content.substring(start + startStr.length, end).replace(/"/g, '\\\"')
+            + endStr
+            + content.substring(end + endStr.length);
+            value = JSON.parse(content);
             value.id = id;
             value.updateDate = updateDate;
             // 读取localStorage的缓存
