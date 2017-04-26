@@ -223,6 +223,6 @@
     "url": "https://github.com/angularclass/angular2-webpack-starter/issues"
   },
   "engines": {
-    "node": "4.1.1"
+    "node": "6.10.2"
   }
 }
