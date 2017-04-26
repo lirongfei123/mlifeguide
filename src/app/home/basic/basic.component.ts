@@ -77,7 +77,8 @@ export class BacisEditorComponent implements OnInit, OnDestroy {
   }
   public onEditorChange(index: number, event) {
     let item = this.data[index];
-    localStorage.setItem('content' + item.id, (new Date().getTime() - 3).toString().slice(0, -3) + '===___===' + item.content);
+    localStorage.setItem('content' + item.id,
+    (new Date().getTime() - 3).toString().slice(0, -3) + '===___===' + item.content);
   }
   public onMarkBlur(index: number, event) {
     this.data[index].mark = event;
@@ -98,7 +99,7 @@ export class BacisEditorComponent implements OnInit, OnDestroy {
         contentValue.id, this.data[index].updateDate).then((data) => {
           data = data.json();
           if (data.code !== 1 && data.data === 'conflict') {
-            alert("已经有新的提交，请复制内容后，刷新页面重新提交");
+            alert('已经有新的提交，请复制内容后，刷新页面重新提交');
           } else {
             this.data[index].updateDate = data.data.updateDate;
           }
@@ -114,8 +115,6 @@ export class BacisEditorComponent implements OnInit, OnDestroy {
         });
     }
   }
-
-
   private initRequestParamAndInitData() {
     this.activeRoute.url.subscribe((urls) => {
       this.type = urls[0].path;
@@ -128,7 +127,7 @@ export class BacisEditorComponent implements OnInit, OnDestroy {
       this.homeComponent.getData(this.type, this.date).then((data) => {
         data = data.json();
         let editData = [];
-        data.data = JSON.parse(data.data)
+        data.data = JSON.parse(data.data);
         if (data.data.length === 0) {
           editData.push({
             mark: '',

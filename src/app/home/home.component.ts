@@ -55,7 +55,7 @@ export class HomeComponent implements OnInit {
       day: this.todayDate.getDate()
     }
   };
-  private selDate: IMyDate = { year: 0, month: 0, day: 0 };
+  public selDate: IMyDate = { year: 0, month: 0, day: 0 };
   // TypeScript public modifiers
   constructor(
     public appState: AppState,
@@ -146,7 +146,7 @@ export class HomeComponent implements OnInit {
       date: this.utilService.convert12Date(date),
     });
   }
-  private onDateChanged(event: IMyDateModel) {
+  public onDateChanged(event: IMyDateModel) {
     this.currentDate = new Date(event.date.year + '/' + event.date.month + '/' + event.date.day)
       .getTime();
     this.router.navigate([this.router.url.split('?')[0]], {
