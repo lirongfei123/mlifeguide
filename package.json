@@ -38,7 +38,7 @@
     "github-deploy": "npm run github-deploy:dev",
     "lint": "npm run tslint \"src/**/*.ts\"",
     "postversion": "git push && git push --tags",
-    "postinstall": "concurrently \"npm run build\"",
+    "postinstall": "npm run webdriver:update && npm run build",
     "preclean:install": "npm run clean",
     "preversion": "npm test",
     "protractor": "protractor",
