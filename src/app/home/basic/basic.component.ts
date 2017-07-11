@@ -129,10 +129,22 @@ export class BacisEditorComponent implements OnInit, OnDestroy {
         let editData = [];
         data.data = JSON.parse(data.data);
         if (data.data.length === 0) {
-          editData.push({
-            mark: '',
-            content: ''
-          });
+          if (this.type === 'daily') {
+            editData.push({
+              mark: '日记',
+              content: ''
+            });
+            editData.push({
+              mark: '计划',
+              content: ''
+            });
+          } else {
+            editData.push({
+              mark: '',
+              content: ''
+            });
+          }
+          
         } else {
           editData = data.data;
           editData = editData.map((value, key) => {
